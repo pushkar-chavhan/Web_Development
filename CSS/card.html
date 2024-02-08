@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -50,5 +50,177 @@
         <h1>Pushkar</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque quis vel ratione vitae? Aliquam saepe accusamus accusantium pariatur itaque quasi natus ad quod. Debitis fugit rem blanditiis molestiae corrupti eaque!</p>
 </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Management System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1em;
+      text-align: center;
+    }
+
+    section {
+      margin: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+    }
+
+    form {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Hospital Management System</h1>
+  </header>
+
+  <section>
+    <form id="patientForm">
+      <h2>Add Patient</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required>
+
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" required>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="disease">Disease:</label>
+      <input type="text" id="disease" name="disease" required>
+
+      <label for="admissionDate">Admission Date:</label>
+      <input type="date" id="admissionDate" name="admissionDate" required>
+
+      <label for="leavingDate">Leaving Date:</label>
+      <input type="date" id="leavingDate" name="leavingDate">
+
+      <button type="button" onclick="addPatient()">Add Patient</button>
+    </form>
+
+    <h2>Patients List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Disease</th>
+          <th>Admission Date</th>
+          <th>Leaving Date</th>
+        </tr>
+      </thead>
+      <tbody id="patientList"></tbody>
+    </table>
+
+    <button type="button" onclick="clearAllData()">Clear All Data</button>
+  </section>
+
+  <script>
+    function addPatient() {
+      var name = document.getElementById('name').value;
+      var age = document.getElementById('age').value;
+      var gender = document.getElementById('gender').value;
+      var disease = document.getElementById('disease').value;
+      var admissionDate = document.getElementById('admissionDate').value;
+      var leavingDate = document.getElementById('leavingDate').value;
+
+      var patient = { name, age, gender, disease, admissionDate, leavingDate };
+      var patients = JSON.parse(localStorage.getItem('patients')) || [];
+      patients.push(patient);
+      localStorage.setItem('patients', JSON.stringify(patients));
+
+      displayPatients();
+      document.getElementById('patientForm').reset();
+    }
+
+    function displayPatients() {
+      var patients = JSON.parse(localStorage.getItem('patients')) || [];
+      var tableBody = document.getElementById('patientList');
+      tableBody.innerHTML = '';
+
+      for (var i = 0; i < patients.length; i++) {
+        var row = tableBody.insertRow(i);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+
+        cell1.innerHTML = patients[i].name;
+        cell2.innerHTML = patients[i].age;
+        cell3.innerHTML = patients[i].gender;
+        cell4.innerHTML = patients[i].disease;
+        cell5.innerHTML = patients[i].admissionDate;
+        cell6.innerHTML = patients[i].leavingDate || '-';
+      }
+    }
+
+    function clearAllData() {
+      if (confirm("Are you sure you want to clear all recorded data?")) {
+        localStorage.removeItem('patients');
+        displayPatients(); // Update the displayed patients after clearing data
+      }
+    }
+
+    displayPatients(); // Display existing patients on page load
+  </script>
 </body>
 </html>
